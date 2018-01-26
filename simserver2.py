@@ -190,7 +190,18 @@ class Context(object):
 
         mock_time = dt.datetime.now() - self.timedelta
 
-        replys.append(self.nb.s2c0301(self.lowbidprice, self.cur_no, cur_time=mock_time, stage='B'))
+        #需要添加的功能
+        #1，11：30：00后页面改变为G
+        #2，中标信息出来后，弹框告知，并页面改变为D
+        if today_time(11,00,00) <= mock_time < today_time(11,30,00):
+            replys.append(self.nb.s2c0301(self.lowbidprice, self.cur_no, cur_time=mock_time, stage='B'))
+        elif today_time(11,30,00) <= mock_time < today_time(11,30,10):
+            replys.append(self.nb.s2c0301(self.lowbidprice, self.cur_no, cur_time=mock_time, stage='G'))
+        elif today_time(11, 30, 10) <= mock_time < today_time(11, 40, 00):
+            replys.append(self.nb.s2c0301(self.lowbidprice, self.cur_no, cur_time=mock_time, stage='D'))
+        elif today_time(10, 30, 00) <= mock_time < today_time(11, 00, 00):
+            replys.append(self.nb.s2c0301(self.lowbidprice, self.cur_no, cur_time=mock_time, stage='A'))
+
         return replys
 
     def update(self):
@@ -200,20 +211,13 @@ class Context(object):
         mock_time = dt.datetime.now() - self.timedelta
         self.lowbidprice = self.policy.getLowPrice(mock_time)
 
-        #7 新增代码，11：30：00拍牌页面改变
-        if mock_time > today_time(11, 30, 00):
-            r = self.nb.s2c0301(self.lowbidprice, self.cur_no, stage='G')
-
         # 6 新增代码，大于11，30，30， 拍牌结束
         if mock_time > today_time(11, 30, 30):
             self.is_finished = True
 
-
-
-        # 6 新增代码，大于11，30，15，给出出价结果;
+        # 6 新增代码，大于11，30，10，给出出价结果;
         #print(mock_time, self.realbidamount, self.lowbidprice)
-
-        if mock_time > today_time(11, 30, 15) and not self.is_result_pushed:
+        if mock_time > today_time(11, 30, 10) and not self.is_result_pushed:
             if self.realbidamount >= self.lowbidprice:
 
                 r = self.nb.s2c0203("4004", self.bidamount, self.bidnumber,
