@@ -1,0 +1,3 @@
+[CMD][local:00:52:48][netbid:]用户网卡:['\\Device\\NPF_{116BAD52-37B9-4919-9C0D-8FA3B4FB8C13}', '\\Device\\NPF_{1749FB98-E9DA-4A43-98AD-69B3C9BC7305}']
+[CMD][local:10:16:25][netbid:]用户网卡:['\\Device\\NPF_{116BAD52-37B9-4919-9C0D-8FA3B4FB8C13}', '\\Device\\NPF_{1749FB98-E9DA-4A43-98AD-69B3C9BC7305}']
+[CMD][local:10:16:36][netbid:]按下登录按钮
