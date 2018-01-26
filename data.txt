@@ -1,4 +1,4 @@
-msg:
+﻿msg:
 0000 c to s: (每10秒)
 {requestid:"52894275.202915506",timestamp:"202915506",bidnumber:"52894275",checkcode:"2847c634d7fba0c356533b4f727fcb0e",version:"1.0",request:{timespan:"0"}}
 {requestid:"52894275.202735389",timestamp:"202735389",bidnumber:"52894275",checkcode:"6dd1709324172ead99859a89b2f93475",version:"1.0",request:{timespan:"0"}}
@@ -31,3 +31,105 @@ msg:
 
 
 000000c70301000000bd32303135303632323139353735342c412c32303135e5b9b436e69c883232e697a5e4b88ae6b5b7e5b882e4b8aae4babae99d9ee890a5e4b89ae680a7e5aea2e8bda6e9a29de5baa6e6a8a1e68b9fe68a95e6a087e68b8de58d96e4bc9a2c353030302c37353230302c31393a33302c32303a33302c31393a33302c32303a30302c32303a30302c32303a33302c31393a35373a35332c37353530382c37353230302c323031352d30362d32322031393a33383a33312c39333334322c30
+
+
+0301 s to c:
+A:   首次出价阶段
+            time0 = cur_time.strftime("%Y%m%d%H%M%S")
+            stage1 = "A"
+            auctionType2 = "0"
+            auctionDate3 = "20180121"
+            quota4 = "7763"
+            warningPrice5 = "11300"
+            priceLowerLimit6 = "100"
+            startTime7 = "1030"
+            updateTime8 = "1100"
+            endTime9 = "1130"
+            systemTime10 = cur_time.strftime("%H%M%S")
+            numberOfBidUsers11 = "1233433"
+            basePrice12 = str(lowbidprice)
+            basePriceTime13 = "20150622110229"
+            tradeSn14 = str(0)
+            queueLength15 = "0"
+
+3-1 [20171118105946,A      ,0,        20171118,   11002,     91700,           100,          1030,       1100,        1130,  105947, 226778,    91700,          20171118103019,    262094,     0]
+    [time0:       ,stage,auctionType,actionDate,quota4,warningprice,                                                                numberOfBidUsers5
+3-1 [20171118105959,B,      0,         20171118, 11002,     226911,           100,          1030,      1100,        1130,   110000,           91700,    20171118103019,   91400,        92000,      262887,        0]
+    [time0:      ,stage,auctionType, actionDate,quota4,numberOfBidUsers5,priceLowerLimit6,startTime7, updateTime8,endTime9,systemTime10,    basePrice11,basePriceTime12,baseprice-300,baseprice+300,tradeSn15,queueLength16
+
+	
+B:    修改出价阶段
+
+            time0 = cur_time.strftime("%Y%m%d%H%M%S")
+            stage1 = "B"
+            unknow2 = "0"
+            aucttionDate3 = "20180121"
+            quota4 = "7763"
+            numberOfBidUsers5 = "170995"
+            priceLowerLimit6 = "100"
+            startTime7 = "1030"
+            updateTime8 = "1100"
+            endTime9 = "1130"
+            systemTime10 = cur_time.strftime("%H%M%S")
+            basePrice11 = str(lowbidprice)
+            basePriceTime12 = "20150622110229"
+            var12013 = str(lowbidprice - 300)
+            var12114 = str(lowbidprice + 300)
+            tradeSn15 = str(cur_pos)
+            queueLength16 = "0"
+			
+C:   没有正在举行的拍卖会
+            time0 = cur_time.strftime("%Y%m%d%H%M%S")
+            stage1 = "C"
+            content2 = "没有正在举行的拍卖会，请注意拍卖公告！查询请到WWW.ALLTOBID.COM"
+            enc_text = "%(time0)s,%(stage1)s,%(content2)s," % locals()
+
+
+D:    出中标后结果
+            time0 = cur_time.strftime("%Y%m%d%H%M%S")
+            stage1 = "D"
+            content2 = ("""
+		2017年11月18日上海市个人非营业性客车额度投标拍卖会结果公布
+		参加拍卖人数：226911
+		最低成交价：93100
+		最低成交价的截止时间：11:29:59 第1025位
+		平均成交价：93130
+		请拍卖成交的买受人在11月19日～25日(9:00-16:00)到下列服务点办理成交付款手续。
+		1.长宁区淞虹路938号（福缘湾九华商业广场地下1层A2）
+		2.共和新路3550号（百联汽车广场）
+		3.东江湾路444号（虹口足球场4区113）
+		4.新镇路288号（闵行体育馆架空层B2区）
+		5.新村路1500号1层107（家乐福上海万里店内）
+		6.浦东成山路800号（云顶国际商业广场A座101）
+		注：福州路108号（公司本部）不办理成交付款结算手续
+		另：我公司网站已开通网上支付结算，大家可登录查询。
+     
+            """)
+            tradeSn3 = str(0)     #tradeSn15 = str(cur_pos)
+            queueLength4 = "0"
+
+
+E、H:未知
+
+F:    拍卖开始前
+            time0 = cur_time.strftime("%Y%m%d%H%M%S")
+            stage1 = "F"
+            auctionType2 = "0"
+            auctionDate3 = "20180121"
+            startTime4 = '1030'
+            endTime5 = '1130'
+            systemTime6 = cur_time.strftime("%H%M%S")
+
+
+G:    稍后发布拍卖会结果，请等待！
+
+拍卖会结果也可通过本公司网站、微信公众号进行查询，网址：www.alltobid.com，微信公众号：shanghaiguopai
+            time0 = cur_time.strftime("%Y%m%d%H%M%S")
+            stage1 = "G"
+            auctionType2 = "0"
+            auctionDate3 = "20180121"
+            content4 = "破解成功了！！"
+            tradeSn5 = str(cur_pos)
+            queueLength6 = "0"
+
+
