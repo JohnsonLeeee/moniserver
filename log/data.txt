@@ -4,23 +4,44 @@
 {requestid:"52894275.202735389",timestamp:"202735389",bidnumber:"52894275",checkcode:"6dd1709324172ead99859a89b2f93475",version:"1.0",request:{timespan:"0"}}
 
 0101 c to s:
-{requestid:"52748672.20714155",timestamp:"20714155",bidnumber:"52748672",checkcode:"90f806a257239273d0f9a1ea343d0aa3",version:"1.0"}
+{requestid:"52748672.20714155",timestamp:"20714155",bidnumber:"52748672",
+checkcode:"90f806a257239273d0f9a1ea343d0aa3",version:"1.0"}
 0101 s to c:
-{"response":{"responsecode":0,"responsemsg":"建立成功","data":{"informationtemplate":"","results":[{"bidamount":"100","bidnumber":"52748672","bidtime":"2015-06-22 19:39:53","msg":"出价有效","bidcount":1,"type":1,"requestid":"52748672.193925477","code":0,"dealtime":"2015-06-22 19:39:53"}]}},"requestid":"52748672.20714155","servertime":"20150622200742"}
+{"response":{"responsecode":0,"responsemsg":"建立成功",
+"data":{"informationtemplate":"","results":[{"bidamount":"100","bidnumber":"52748672",
+"bidtime":"2015-06-22 19:39:53","msg":"出价有效","bidcount":1,"type":1,"requestid":"52748672.193925477",
+"code":0,"dealtime":"2015-06-22 19:39:53"}]}},"requestid":"52748672.20714155","servertime":"20150622200742"}
 
 0201 c to s:
-{requestid:"52894275.202950352",timestamp:"202950352",bidnumber:"52894275",checkcode:"379a2ba7d42245a04a61334772be99cc",version:"1.0",request:{bidamount:80000}}
+{requestid:"52894275.202950352",timestamp:"202950352",bidnumber:"52894275",
+checkcode:"379a2ba7d42245a04a61334772be99cc",version:"1.0",request:{bidamount:80000}}
 0201 s to c:
-{"response":{"responsecode":0,"responsemsg":"Success","data":{"imageurl":"http://222.73.120.235/imgs/b/490fff3d-5308-440c-a219-dc055d64567a.jpg","prompt":"请输入第2到第5位图像校验码\r"}},"requestid":"52894275.202950352","servertime":"20150622202950"}
+{"response":{"responsecode":0,"responsemsg":"Success",
+"data":{"imageurl":"http://222.73.120.235/imgs/b/490fff3d-5308-440c-a219-dc055d64567a.jpg",
+"prompt":"请输入第2到第5位图像校验码\r"}},"requestid":"52894275.202950352","servertime":"20150622202950"}
 
 0202 c to s:
-{requestid:"52748672.201011920",timestamp:"201011920",bidnumber:"52748672",checkcode:"08b9644c9a15176491cf227de9b03ee4",version:"1.0",request:{bidamount:"76600",imagenumber:"5939"}}
+{requestid:"52748672.201011920",timestamp:"201011920",bidnumber:"52748672",
+checkcode:"08b9644c9a15176491cf227de9b03ee4",version:"1.0",request:{bidamount:"76600",imagenumber:"5939"}}
 0202 s to c:
-{"response":{"responsecode":0,"responsemsg":"成功","data":{"bidamount":"76600","bidnumber":"52748672","bidtime":"2015-06-22 20:10:40","msg":"出价入列，\n您处于第127911位，127911，127909","bidcount":0,"type":1,"requestid":"52748672.201011920","code":0,"dealtime":"0001-01-01 00:00:00"}},"requestid":"52748672.201011920","servertime":"20150622201040"}
-[{"response":{"responsecode":0,"responsemsg":"成功","data":{"bidamount":"76600","bidnumber":"12345678","bidtime":"2015-11-05 17:55:00","msg":"出价入列，您处于第127911位，127911，127909","bidcount":0,"type":1,"requestid":"12345678.175459593","code":0,"dealtime":"0001-01-01 00:00:00"}},"requestid":"12345678.175459593","servertime":"20151105175500"}]]
+{"response":{"responsecode":0,"responsemsg":"成功",
+"data":{"bidamount":"76600","bidnumber":"52748672","bidtime":"2015-06-22 20:10:40",
+"msg":"出价入列，\n您处于第127911位，127911，127909","bidcount":0,"type":1,"requestid":
+"52748672.201011920","code":0,"dealtime":"0001-01-01 00:00:00"}},
+
+"requestid":"52748672.201011920","servertime":"20150622201040"}
+[{"response":{"responsecode":0,"responsemsg":"成功",
+"data":{"bidamount":"76600","bidnumber":"12345678","bidtime":"2015-11-05 17:55:00"
+,"msg":"出价入列，您处于第127911位，127911，127909","bidcount":0,"type":1,"requestid":"12345678.175459593","code":0,"dealtime":"0001-01-01 00:00:00"}},"requestid":"12345678.175459593","servertime":"20151105175500"}]]
 
 0203 s to c:
-{"response":{"responsecode":4015,"responsemsg":"您的出价不在目前数据库接受处理价格75500-76100元区间范围内，请重新出价！","data":{"bidamount":"76600","bidnumber":"52748672","bidtime":"2015-06-22 20:10:40.045","msg":"您的出价不在目前数据库接受处理价格75500-76100元区间范围内，请重新出价！","bidcount":0,"type":1,"requestid":"52748672.201011920","code":4015,"dealtime":"2015-06-22 20:10:40.150"}},"requestid":"52748672.201011920","servertime":"20150622201040"}
+{"response":{"responsecode":4015,"responsemsg":"您的出价不在目前数据库接受处理价格75500-76100元区间范围内，请重新出价！",
+"data":{"bidamount":"76600","bidnumber":"52748672",
+"bidtime":"2015-06-22 20:10:40.045",
+"msg":"您的出价不在目前数据库接受处理价格75500-76100元区间范围内，请重新出价！",
+"bidcount":0,"type":1,"requestid":"52748672.201011920","code":4015,
+"dealtime":"2015-06-22 20:10:40.150"}},"requestid":"52748672.201011920","servertime":"20150622201040"}
+
 {"response":{"responsecode":0,"responsemsg":"","data":{"bidamount":"79000","bidnumber":"52748672","bidtime":"2015-06-22 20:29:11.729","msg":"出价有效","bidcount":2,"type":1,"requestid":"52748672.202843626","code":0,"dealtime":"2015-06-22 20:29:11.000"}},"requestid":"52748672.202843626","servertime":"20150622202911"}
 {"response":{"responsecode":4004,"responsemsg":"超过修改次数","data":{"bidamount":"80000","bidnumber":"52894275","bidtime":"2015-06-22 20:29:56.662","msg":"超过修改次数","bidcount":3,"type":1,"requestid":"52894275.202956893","code":4004,"dealtime":"2015-06-22 20:29:56.000"}},"requestid":"52894275.202956893","servertime":"20150622202956"}
 

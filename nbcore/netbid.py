@@ -138,15 +138,32 @@ class MessageCoreFactory(object):
 
 
 class MessageCore622(object):
-    template_c2s0000 = '{requestid:"%(requestid)s",timestamp:"%(timestamp)s",bidnumber:"%(bidnumber)s",checkcode:"%(checkcode)s",version:%(version)s,request:{timespan:%(timespan)s}}'
+    template_c2s0000 = '{requestid:"%(requestid)s",timestamp:"%(timestamp)s",bidnumber:"%(bidnumber)s",' \
+                       'checkcode:"%(checkcode)s",version:%(version)s,' \
+                       'request:{timespan:%(timespan)s}}'
 
-    template_s2c0101 = '{"response":{"responsecode":%(responsecode)s,"responsemsg":"%(responsemsg)s","data":{"informationtemplate":"","results":[{"bidamount":"%(bidamount)d","bidnumber":"%(bidnumber)s","bidtime":"%(bidtime)s","msg":"%(msg)s","bidcount":%(bidcount)d,"type":%(type)d,"requestid":"%(lastrequestid)s","code":0,"dealtime":"%(dealtime)s"}]}},"requestid":"%(requestid)s","servertime":"%(servertime)s"}'
+    template_s2c0101 = '{"response":{"responsecode":%(responsecode)s,"responsemsg":"%(responsemsg)s",' \
+                       '"data":{"informationtemplate":"",' \
+                                '"results":[{"bidamount":"%(bidamount)d","bidnumber":"%(bidnumber)s",' \
+                                '"bidtime":"%(bidtime)s","msg":"%(msg)s","bidcount":%(bidcount)d,"type":%(type)d,"' \
+                                'requestid":"%(lastrequestid)s","code":0,"dealtime":"%(dealtime)s"}]}},' \
+                       '"requestid":"%(requestid)s","servertime":"%(servertime)s"}'
 
-    template_s2c0201 = '{"response":{"responsecode":%(responsecode)s,"responsemsg":"%(responsemsg)s","data":{"imageurl":"%(imageurl)s","prompt":"%(prompt)s"}},"requestid":"%(requestid)s","servertime":"%(servertime)s"}'
+    template_s2c0201 = '{"response":{"responsecode":%(responsecode)s,"responsemsg":"%(responsemsg)s",' \
+                       '"data":{"imageurl":"%(imageurl)s","prompt":"%(prompt)s"}},' \
+                       '"requestid":"%(requestid)s","servertime":"%(servertime)s"}'
 
-    template_s2c0202 = '{"response":{"responsecode":%(responsecode)s,"responsemsg":"%(responsemsg)s","data":{"bidamount":"%(bidamount)s","bidnumber":"%(bidnumber)s","bidtime":"%(bidtime)s","msg":"%(msg)s","bidcount":%(bidcount)s,"type":%(stype)s,"requestid":"%(requestid)s","code":%(code)s,"dealtime":"%(dealtime)s"}},"requestid":"%(requestid)s","servertime":"%(servertime)s"}'
+    template_s2c0202 = '{"response":{"responsecode":%(responsecode)s,"responsemsg":"%(responsemsg)s",' \
+                       '"data":{"bidamount":"%(bidamount)s","bidnumber":"%(bidnumber)s",' \
+                                '"bidtime":"%(bidtime)s","msg":"%(msg)s","bidcount":%(bidcount)s,' \
+                                '"type":%(stype)s,"requestid":"%(requestid)s","code":%(code)s,"dealtime":"%(dealtime)s"}},' \
+                       '"requestid":"%(requestid)s","servertime":"%(servertime)s"}'
 
-    template_s2c0203 = '{"response":{"responsecode":%(responsecode)s,"responsemsg":"","data":{"bidamount":"%(bidamount)s","bidnumber":"%(bidnumber)s","bidtime":"%(bidtime)s","msg":"%(msg)s","bidcount":%(bidcount)s,"type":%(stype)s,"requestid":"%(requestid)s","code":%(code)s,"dealtime":"%(dealtime)s"}},"requestid":"%(requestid)s","servertime":"%(servertime)s"}'
+    template_s2c0203 = '{"response":{"responsecode":%(responsecode)s,"responsemsg":"",' \
+                       '"data":{"bidamount":"%(bidamount)s","bidnumber":"%(bidnumber)s",' \
+                                '"bidtime":"%(bidtime)s","msg":"%(msg)s","bidcount":%(bidcount)s,' \
+                                '"type":%(stype)s,"requestid":"%(requestid)s","code":%(code)s,"dealtime":"%(dealtime)s"}},' \
+                       '"requestid":"%(requestid)s","servertime":"%(servertime)s"}'
     # this is for 6-22
     CLIENT_ID = "4d3d87126d5446248c44ff0f33cc75b3"
     VERSION = "1.0"
@@ -454,8 +471,9 @@ class MessageCore1024(MessageCore622):
             print raw_text
         return self.head(len(enc_text), 2, 2) + enc_text
 
-    def s2c0101(self, responsecode, responsemsg,
-                bidamount, bidnumber, bidcount, stype, requestid, dealtime):
+    def s2c0101(self, responsecode, responsemsg,bidamount,
+                bidnumber, bidcount, stype, requestid, dealtime):
+
         lastrequestid = bidnumber + "." + self.cal_timestamp(dt.timedelta(seconds=30))
 
         bidtime = (dt.datetime.now() - dt.timedelta(seconds=30)).strftime('%Y-%m-%d %H:%M:%S')

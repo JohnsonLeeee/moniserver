@@ -152,6 +152,9 @@ class Context(object):
 
         self.timedelta = dt.datetime.now() - today_time(11, 29, 00)
 
+    def getMocktime(self):
+        return dt.datetime.now() - self.timedelta
+
     def wait_init(self):
         self.init_event.wait()
 
@@ -188,7 +191,7 @@ class Context(object):
             replys.append(self.msg_queue.get())
             self.msg_queue.task_done()
 
-        mock_time = dt.datetime.now() - self.timedelta
+        mock_time = self.getMocktime()
 
         #需要添加的功能
         #1，11：30：00后页面改变为G
@@ -206,10 +209,10 @@ class Context(object):
 
     def update(self):
         #         print 'cur_no:%d, bid_no:%d, your_no:%d'%(self.cur_no,self.bid_no,self.your_no)
+        mock_time = self.getMocktime()
+        self.lowbidprice = self.policy.getLowPrice(mock_time)
 
         self.cur_no += random.randint(50, 100)
-        mock_time = dt.datetime.now() - self.timedelta
-        self.lowbidprice = self.policy.getLowPrice(mock_time)
 
         # 6 新增代码，大于11，30，30， 拍牌结束
         if mock_time > today_time(11, 30, 30):
@@ -315,8 +318,13 @@ class Context(object):
         return self.nb.s2c0201("0", "Success", img[2], img[1], requestid)
 
     def reply2_2(self, msg):
+        mock_time = self.getMocktime()
         self.bid_no = self.cur_no
-        self.your_no = self.cur_no + random.randint(0, 500)
+        if mock_time > today_time(11, 29, 50):
+            self.your_no = self.cur_no + random.randint(0, 500)
+        else:
+            self.your_no = self.cur_no + random.randint(0, 30)
+
 
         requestid = msg.getprop('requestid')
         bidnumber = msg.getprop('bidnumber')
@@ -335,6 +343,7 @@ class Context(object):
                                 (dt.datetime.now() - self.timedelta).strftime("%Y-%m-%d %H:%M:%S"),
                                 "验证码不正确", str(self.bidcount), dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                                 self.requestid)
+
         elif client_imgnum == self.correct_imgnum:
             self.state = self.IN_QUEUE
             return self.nb.s2c0202("0", "成功", bidamount, bidnumber,
