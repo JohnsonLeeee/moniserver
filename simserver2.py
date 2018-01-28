@@ -289,12 +289,13 @@ class Context(object):
 
         # bidamount = 86300
         bidnumber = msg.getprop('bidnumber')
-        self.bidnumber = bidnumber
+
         bidcount = 1
         stype = 1
         requestid = msg.getprop('requestid')
 
         #7添加功能：根据传回的bidnumber值，确定所属历史月份的队列
+        self.bidnumber = bidnumber
         self.policy_name = str(bidnumber)[:6]
 
         return self.nb.s2c0101(responsecode, responsemsg,
