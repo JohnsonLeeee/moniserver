@@ -228,7 +228,7 @@ class Context(object):
                                     "恭喜你，中标了！您的出价金额为{realbidamount},最低中标价为{lowbidprice},30s后将自动重新模拟".format(
                                     realbidamount=self.realbidamount,lowbidprice=self.lowbidprice),
                                     str(self.bidcount),
-                                    dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                                    mock_time.strftime("%Y-%m-%d %H:%M:%S"),
                                     self.requestid)
             else:
 
@@ -237,7 +237,7 @@ class Context(object):
                                     "很遗憾，您没中标，您的出价金额为{bidamount},最低中标价为{lowbidprice},30s后将自动重新模拟".format(
                                             bidamount=self.realbidamount,lowbidprice=self.lowbidprice),
                                     str(self.bidcount),
-                                    dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), self.requestid)
+                                    mock_time.strftime("%Y-%m-%d %H:%M:%S"), self.requestid)
 
             self.msg_queue.put(r)
             self.is_result_pushed = True
@@ -256,14 +256,14 @@ class Context(object):
             if mock_time > today_time(11, 30, 0):
                 r = self.nb.s2c0203("0", self.bidamount, self.bidnumber,
                                     (dt.datetime.now() - self.timedelta).strftime("%Y-%m-%d %H:%M:%S"),
-                                    "拍卖已结束", str(self.bidcount), dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                                    "拍卖已结束", str(self.bidcount), mock_time.strftime("%Y-%m-%d %H:%M:%S"),
                                     self.requestid)
 
             # 检测修改次数
             elif self.bidcount >= 3:
                 r = self.nb.s2c0203("4004", self.bidamount, self.bidnumber,
                                     (dt.datetime.now() - self.timedelta).strftime("%Y-%m-%d %H:%M:%S"),
-                                    "超过修改次数", str(self.bidcount), dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                                    "超过修改次数", str(self.bidcount), mock_time.strftime("%Y-%m-%d %H:%M:%S"),
                                     self.requestid)
 
             # 检测价格区间
@@ -273,13 +273,13 @@ class Context(object):
                                     (dt.datetime.now() - self.timedelta).strftime("%Y-%m-%d %H:%M:%S"),
                                     "您的出价不在目前数据库接受处理价格%d-%d元区间范围内，请重新出价！" % (
                                     self.lowbidprice - 300, self.lowbidprice + 300),
-                                    str(self.bidcount), dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), self.requestid)
+                                    str(self.bidcount), mock_time.strftime("%Y-%m-%d %H:%M:%S"), self.requestid)
             else:
                 self.bidcount += 1
                 self.realbidamount = int(self.bidamount)
                 r = self.nb.s2c0203("0", self.bidamount, self.bidnumber,
                                     (dt.datetime.now() - self.timedelta).strftime("%Y-%m-%d %H:%M:%S"),
-                                    "出价有效", str(self.bidcount), dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                                    "出价有效", str(self.bidcount), mock_time.strftime("%Y-%m-%d %H:%M:%S"),
                                     self.requestid)
 
             self.msg_queue.put(r)
@@ -340,12 +340,13 @@ class Context(object):
         if client_imgnum != self.correct_imgnum:
             self.state = self.NORMAL
             return self.nb.s2c0203("4004", self.bidamount, self.bidnumber,
-                                (dt.datetime.now() - self.timedelta).strftime("%Y-%m-%d %H:%M:%S"),
-                                "验证码不正确", str(self.bidcount), dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                                mock_time.strftime("%Y-%m-%d %H:%M:%S"),
+                                "验证码不正确", str(self.bidcount), mock_time.strftime("%Y-%m-%d %H:%M:%S"),
                                 self.requestid)
 
         elif client_imgnum == self.correct_imgnum:
             self.state = self.IN_QUEUE
+            #print(self.your_no,self.bid_no,self.cur_no)
             return self.nb.s2c0202("0", "成功", bidamount, bidnumber,
                                "出价入列，您处于第%d位，%d，%d" % (self.your_no, self.your_no, self.bid_no), "0", requestid,
                                "0001-01-01 00:00:00")

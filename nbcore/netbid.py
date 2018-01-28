@@ -295,6 +295,13 @@ class MessageCore622(object):
     def c2s0202(self, bidnumber, bidamount, imagenumber):
         # commit imagecode
         self.cal_timestamp()
+        """
+        template_s2c0202 = '{"response":{"responsecode":%(responsecode)s,"responsemsg":"%(responsemsg)s",' \
+                   '"data":{"bidamount":"%(bidamount)s","bidnumber":"%(bidnumber)s",' \
+                            '"bidtime":"%(bidtime)s","msg":"%(msg)s","bidcount":%(bidcount)s,' \
+                            '"type":%(stype)s,"requestid":"%(requestid)s","code":%(code)s,"dealtime":"%(dealtime)s"}},' \
+                   '"requestid":"%(requestid)s","servertime":"%(servertime)s"}'
+        """
 
     def s2c0202(self, responsecode, responsemsg, bidamount, bidnumber, msg, bidcount, requestid, dealtime, stype="1",
                 code="0"):
@@ -304,6 +311,14 @@ class MessageCore622(object):
         raw_text = self.template_s2c0202 % locals()
         enc_text = self.encdec.enc(raw_text)
         return self.head(len(enc_text), 2, 2) + enc_text
+
+    """
+    template_s2c0203 = '{"response":{"responsecode":%(responsecode)s,"responsemsg":"",' \
+                   '"data":{"bidamount":"%(bidamount)s","bidnumber":"%(bidnumber)s",' \
+                            '"bidtime":"%(bidtime)s","msg":"%(msg)s","bidcount":%(bidcount)s,' \
+                            '"type":%(stype)s,"requestid":"%(requestid)s","code":%(code)s,"dealtime":"%(dealtime)s"}},' \
+                   '"requestid":"%(requestid)s","servertime":"%(servertime)s"}'
+    """
 
     def s2c0203(self, responsecode,
                 bidamount, bidnumber, bidtime, msg, bidcount, dealtime, requestid, stype="1", code="0"):
@@ -499,6 +514,26 @@ class MessageCore1024(MessageCore622):
         enc_text = self.encdec.enc(raw_text)
         return self.head(len(enc_text), 1, 1) + enc_text
 
+    """
+     template_s2c0203 = '{"response":{"responsecode":%(responsecode)s,"responsemsg":"",' \
+                    '"data":{"bidamount":"%(bidamount)s","bidnumber":"%(bidnumber)s",' \
+                             '"bidtime":"%(bidtime)s","msg":"%(msg)s","bidcount":%(bidcount)s,' \
+                             '"type":%(stype)s,"requestid":"%(requestid)s","code":%(code)s,"dealtime":"%(dealtime)s"}},' \
+                    '"requestid":"%(requestid)s","servertime":"%(servertime)s"}'
+     """
+    def s2c0203(self, responsecode,
+                bidamount, bidnumber, bidtime, msg, bidcount, dealtime, requestid, stype="1", code="0"):
+        servertime = time2str(dt.datetime.now())
+        #测试用
+        dealtime = dt.datetime(2012, 1, 21, 2, 34, 22)
+
+        raw_text = self.template_s2c0203 % locals()
+        print("2-3消息：", raw_text)
+        enc_text = self.encdec.enc(raw_text)
+        return self.head(len(enc_text), 2, 3) + enc_text
+
+
+
 
     def s2c0301(self, lowbidprice, cur_pos, stage='B', cur_time=None):
         if cur_time is None:
@@ -680,10 +715,10 @@ class MessageCore1024(MessageCore622):
 另：我公司网站已开通网上支付结算，大家可登录查询。
             
             """)
-            tradeSn3 = str(0)     #tradeSn15 = str(cur_pos)
+            tradeSn3 = str(cur_pos)     #tradeSn15 = str(cur_pos)
             queueLength4 = "0"
             enc_text = ("%(time0)s,%(stage1)s,%(content2)s,%(tradeSn3)s,%(queueLength4)s") % locals()
-            print "stage == D", enc_text
+            #print "stage == D", enc_text
 
         elif stage == 'F':
             time0 = cur_time.strftime("%Y%m%d%H%M%S")
@@ -696,7 +731,7 @@ class MessageCore1024(MessageCore622):
 
             enc_text = ("%(time0)s,%(stage1)s,%(auctionType2)s,%(auctionDate3)s,%(startTime4)s,"
                         "%(endTime5)s,%(systemTime6)s") % locals()
-            print "stage == D", enc_text
+            #print "stage == D", enc_text
 
 
         elif stage == 'G':
@@ -708,11 +743,11 @@ class MessageCore1024(MessageCore622):
 
 拍卖会结果也可通过本公司网站、微信公众号进行查询，网址：www.alltobid.com，微信公众号：shanghaiguopai
 """
-            tradeSn5 = str(0)  #tradeSn15 = str(cur_pos)
+            tradeSn5 = str(cur_pos)  #tradeSn15 = str(cur_pos)
             queueLength6 = "0"
             enc_text = ("%(time0)s,%(stage1)s,%(auctionType2)s,%(auctionDate3)s,%(content4)s,"
                         "%(tradeSn5)s,%(queueLength6)s") % locals()
-            print "stage == G", enc_text
+            #print "stage == G", enc_text
 
 
 
