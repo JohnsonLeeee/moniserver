@@ -295,6 +295,7 @@ class MessageCore622(object):
     def c2s0202(self, bidnumber, bidamount, imagenumber):
         # commit imagecode
         self.cal_timestamp()
+
         """
         template_s2c0202 = '{"response":{"responsecode":%(responsecode)s,"responsemsg":"%(responsemsg)s",' \
                    '"data":{"bidamount":"%(bidamount)s","bidnumber":"%(bidnumber)s",' \
@@ -525,10 +526,12 @@ class MessageCore1024(MessageCore622):
                 bidamount, bidnumber, bidtime, msg, bidcount, dealtime, requestid, stype="1", code="0"):
         servertime = time2str(dt.datetime.now())
         #测试用
-        dealtime = dt.datetime(2012, 1, 21, 2, 34, 22)
+        #print(type(dealtime), dealtime)
+        #把后microseconds的后三位截断
+        dealtime = str(dealtime)[:-3]
 
         raw_text = self.template_s2c0203 % locals()
-        print("2-3消息：", raw_text)
+        #print("2-3消息：", raw_text)
         enc_text = self.encdec.enc(raw_text)
         return self.head(len(enc_text), 2, 3) + enc_text
 
@@ -688,7 +691,7 @@ class MessageCore1024(MessageCore622):
             #print "liuziyu ~~~~", enc_text
 
         #7李帅新加代码
-        #C,E,H消息暂时不知何用，是拍牌前的界面
+        #E,H消息暂时不知何用，是拍牌前的界面
         elif stage == 'C' or stage == 'E' or stage == 'H':
             time0 = cur_time.strftime("%Y%m%d%H%M%S")
             stage1 = "C"
