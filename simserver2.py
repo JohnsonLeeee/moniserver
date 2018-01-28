@@ -303,6 +303,8 @@ class Context(object):
         #7添加功能：根据传回的bidnumber值，确定所属历史月份的队列
         self.bidnumber = bidnumber
         self.policy_name = str(bidnumber)[:6]
+        self.policy = HistoryFactory().creatHistory(self.policy_name)
+        print("bidnumber", self.bidnumber, str(bidnumber)[:6])
 
         return self.nb.s2c0101(responsecode, responsemsg,
                                bidamount, bidnumber, bidcount, stype, requestid,dealtime)

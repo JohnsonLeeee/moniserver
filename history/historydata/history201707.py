@@ -4,7 +4,7 @@ import random
 from history201712 import History201712
 
 
-class History201708(History201712) :
+class History201707(History201712) :
     bid_people = 269189
     title = "2017年7月22日"
     cards = 10325
