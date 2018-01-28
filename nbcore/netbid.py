@@ -454,6 +454,34 @@ class MessageCore1024(MessageCore622):
             print raw_text
         return self.head(len(enc_text), 2, 2) + enc_text
 
+    def s2c0101(self, responsecode, responsemsg,
+                bidamount, bidnumber, bidcount, stype, requestid, dealtime):
+        lastrequestid = bidnumber + "." + self.cal_timestamp(dt.timedelta(seconds=30))
+
+        bidtime = (dt.datetime.now() - dt.timedelta(seconds=30)).strftime('%Y-%m-%d %H:%M:%S')
+        msg = '出价有效'
+        bidcount = 1
+        servertime = time2str(dt.datetime.now())
+
+        raw_text = self.template_s2c0101 % {
+            'responsecode': responsecode,
+            'responsemsg': responsemsg,
+            'bidamount': bidamount,
+            'bidnumber': bidnumber,
+            'bidtime': bidtime,
+            'msg': msg,
+            'bidcount': bidcount,
+            'type': stype,
+            'lastrequestid': lastrequestid,
+            'dealtime': dealtime,
+            'requestid': requestid,
+            'servertime': servertime
+        }
+
+        enc_text = self.encdec.enc(raw_text)
+        return self.head(len(enc_text), 1, 1) + enc_text
+
+
     def s2c0301(self, lowbidprice, cur_pos, stage='B', cur_time=None):
         if cur_time is None:
             cur_time = dt.datetime.now()
@@ -661,7 +689,6 @@ class MessageCore1024(MessageCore622):
             content4 = """稍后发布拍卖会结果，请等待！
 
 拍卖会结果也可通过本公司网站、微信公众号进行查询，网址：www.alltobid.com，微信公众号：shanghaiguopai
-破解成功了！！
 """
             tradeSn5 = str(0)  #tradeSn15 = str(cur_pos)
             queueLength6 = "0"

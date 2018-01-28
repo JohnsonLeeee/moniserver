@@ -287,19 +287,20 @@ class Context(object):
         responsecode = 0
         responsemsg = "建立成功"
 
-        # bidamount = 86300
+        bidamount = 100
         bidnumber = msg.getprop('bidnumber')
 
         bidcount = 1
         stype = 1
         requestid = msg.getprop('requestid')
+        dealtime = today_time(10, 30, 01)
 
         #7添加功能：根据传回的bidnumber值，确定所属历史月份的队列
         self.bidnumber = bidnumber
         self.policy_name = str(bidnumber)[:6]
 
         return self.nb.s2c0101(responsecode, responsemsg,
-                               self.bidamount, bidnumber, bidcount, stype, requestid)
+                               bidamount, bidnumber, bidcount, stype, requestid,dealtime)
 
     def reply0_0(self, msg):
         #         print 'reply 0-0'
