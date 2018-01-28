@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-import time
+import datetime
 import random
 from history201712 import History201712
 
 
 class HistoryRandom(History201712):
+    auction_date = datetime.now()
     bid_people = random.randint(200000, 300000)
     title = "随机模拟"
     cards = random.randint(8000, 15000)

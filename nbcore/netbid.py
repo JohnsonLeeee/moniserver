@@ -670,7 +670,7 @@ class MessageCore1024(MessageCore622):
             time0 = cur_time.strftime("%Y%m%d%H%M%S")
             stage1 = "B"
             unknow2 = "0"
-            aucttionDate3 = "20180121"
+            aucttionDate3 = "20171216"
             quota4 = "7763"
             numberOfBidUsers5 = "170995"
             priceLowerLimit6 = "100"

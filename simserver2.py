@@ -150,10 +150,20 @@ class Context(object):
         self.realbidamount = 86300
         self.is_result_pushed = False
 
-        self.timedelta = dt.datetime.now() - today_time(11, 29, 00)
+        self.timedelta = dt.datetime.now() - self.mock_datetime(11, 29, 00)
+
+    def mock_datetime(self, hour, minute, second):
+        mock_year = self.policy.auction_date.year
+        mock_month = self.policy.auction_date.month
+        mock_day = self.policy.auction_date.day
+        return dt.datetime(mock_year, mock_month, mock_day, hour, minute, second)
 
     def getMocktime(self):
-        return dt.datetime.now() - self.timedelta
+        hour = dt.datetime.now().hour
+        minute = dt.datetime.now().minute
+        second = dt.datetime.now().second
+        print(type(hour),type(minute),type(second))
+        return dt.datetime.now() -self.timedelta
 
     def wait_init(self):
         self.init_event.wait()
@@ -193,16 +203,16 @@ class Context(object):
 
         mock_time = self.getMocktime()
 
-        #需要添加的功能
-        #1，11：30：00后页面改变为G
-        #2，中标信息出来后，弹框告知，并页面改变为D
-        if today_time(11,00,00) <= mock_time < today_time(11,30,00):
+        # 需要添加的功能
+        # 1，11：30：00后页面改变为G
+        # 2，中标信息出来后，弹框告知，并页面改变为D
+        if self.mock_datetime(11, 00, 00) <= mock_time < self.mock_datetime(11, 30, 00):
             replys.append(self.nb.s2c0301(self.lowbidprice, self.cur_no, cur_time=mock_time, stage='B'))
-        elif today_time(11,30,00) <= mock_time < today_time(11,30,10):
+        elif self.mock_datetime(11, 30, 00) <= mock_time < self.mock_datetime(11, 30, 10):
             replys.append(self.nb.s2c0301(self.lowbidprice, self.cur_no, cur_time=mock_time, stage='G'))
-        elif today_time(11, 30, 10) <= mock_time < today_time(11, 40, 00):
+        elif self.mock_datetime(11, 30, 10) <= mock_time < self.mock_datetime(11, 40, 00):
             replys.append(self.nb.s2c0301(self.lowbidprice, self.cur_no, cur_time=mock_time, stage='D'))
-        elif today_time(10, 30, 00) <= mock_time < today_time(11, 00, 00):
+        elif self.mock_datetime(10, 30, 00) <= mock_time < self.mock_datetime(11, 00, 00):
             replys.append(self.nb.s2c0301(self.lowbidprice, self.cur_no, cur_time=mock_time, stage='A'))
 
         return replys
@@ -215,18 +225,18 @@ class Context(object):
         self.cur_no += random.randint(50, 100)
 
         # 6 新增代码，大于11，30，30， 拍牌结束
-        if mock_time > today_time(11, 30, 30):
+        if mock_time > self.mock_datetime(11, 30, 30):
             self.is_finished = True
 
         # 6 新增代码，大于11，30，07，给出出价结果;
-        #print(mock_time, self.realbidamount, self.lowbidprice)
-        if mock_time > today_time(11, 30, 07) and not self.is_result_pushed:
+        # print(mock_time, self.realbidamount, self.lowbidprice)
+        if mock_time > self.mock_datetime(11, 30, 07) and not self.is_result_pushed:
             if self.realbidamount >= self.lowbidprice:
 
                 r = self.nb.s2c0203("4004", self.bidamount, self.bidnumber,
                                     (dt.datetime.now() - self.timedelta),
                                     "恭喜你，中标了！您的出价金额为{realbidamount},最低中标价为{lowbidprice},30s后将自动重新模拟".format(
-                                    realbidamount=self.realbidamount,lowbidprice=self.lowbidprice),
+                                        realbidamount=self.realbidamount, lowbidprice=self.lowbidprice),
                                     str(self.bidcount),
                                     mock_time,
                                     self.requestid)
@@ -235,7 +245,7 @@ class Context(object):
                 r = self.nb.s2c0203("4004", self.bidamount, self.bidnumber,
                                     (dt.datetime.now() - self.timedelta),
                                     "很遗憾，您没中标，您的出价金额为{bidamount},最低中标价为{lowbidprice},30s后将自动重新模拟".format(
-                                            bidamount=self.realbidamount,lowbidprice=self.lowbidprice),
+                                        bidamount=self.realbidamount, lowbidprice=self.lowbidprice),
                                     str(self.bidcount),
                                     mock_time, self.requestid)
 
@@ -254,7 +264,7 @@ class Context(object):
 
             # 检测是否拍卖结束
 
-            if mock_time > today_time(11, 30, 0):
+            if mock_time > self.mock_datetime(11, 30, 0):
                 r = self.nb.s2c0203("0", self.bidamount, self.bidnumber,
                                     (dt.datetime.now() - self.timedelta).strftime("%Y-%m-%d %H:%M:%S"),
                                     "拍卖已结束", str(self.bidcount), mock_time,
@@ -273,7 +283,7 @@ class Context(object):
                 r = self.nb.s2c0203("4015", self.bidamount, self.bidnumber,
                                     (dt.datetime.now() - self.timedelta).strftime("%Y-%m-%d %H:%M:%S"),
                                     "您的出价不在目前数据库接受处理价格%d-%d元区间范围内，请重新出价！" % (
-                                    self.lowbidprice - 300, self.lowbidprice + 300),
+                                        self.lowbidprice - 300, self.lowbidprice + 300),
                                     str(self.bidcount), mock_time, self.requestid)
             else:
                 self.bidcount += 1
@@ -287,7 +297,7 @@ class Context(object):
             self.state = self.NORMAL
 
     def reply1_1(self, msg):
-        #print 'reply 1-1', msg
+        # print 'reply 1-1', msg
         responsecode = 0
         responsemsg = "建立成功"
 
@@ -297,17 +307,20 @@ class Context(object):
         bidcount = 1
         stype = 1
         requestid = msg.getprop('requestid')
-        dealtime = today_time(10, 30, 01)
-        print(type(dealtime))
+        dealtime = self.mock_datetime(10, 30, 01)
+        #print(type(dealtime))
 
-        #7添加功能：根据传回的bidnumber值，确定所属历史月份的队列
+        # 7添加功能：根据传回的bidnumber值，确定所属历史月份的队列
+        """
         self.bidnumber = bidnumber
         self.policy_name = str(bidnumber)[:6]
         self.policy = HistoryFactory().creatHistory(self.policy_name)
+        self.mockdate = dt.datetime(self.bidnumber[:4], self.bidnumber[4:6], self.bidnumber[6:])
         print("bidnumber", self.bidnumber, str(bidnumber)[:6])
+        """
 
         return self.nb.s2c0101(responsecode, responsemsg,
-                               bidamount, bidnumber, bidcount, stype, requestid,dealtime)
+                               bidamount, bidnumber, bidcount, stype, requestid, dealtime)
 
     def reply0_0(self, msg):
         #         print 'reply 0-0'
@@ -324,17 +337,15 @@ class Context(object):
     def reply2_2(self, msg):
         mock_time = self.getMocktime()
         self.bid_no = self.cur_no
-        if mock_time > today_time(11, 29, 50):
+        if mock_time > self.mock_datetime(11, 29, 50):
             self.your_no = self.cur_no + random.randint(0, 500)
         else:
             self.your_no = self.cur_no + random.randint(0, 30)
-
 
         requestid = msg.getprop('requestid')
         bidnumber = msg.getprop('bidnumber')
         bidamount = msg.getprop('bidamount')
         client_imgnum = msg.getprop('imagenumber')
-
 
         self.requestid = requestid
         self.bidnumber = bidnumber
@@ -344,19 +355,16 @@ class Context(object):
         if client_imgnum != self.correct_imgnum:
             self.state = self.NORMAL
             return self.nb.s2c0203("4004", self.bidamount, self.bidnumber,
-                                mock_time.strftime("%Y-%m-%d %H:%M:%S"),
-                                "验证码不正确", str(self.bidcount), mock_time,
-                                self.requestid)
+                                   mock_time.strftime("%Y-%m-%d %H:%M:%S"),
+                                   "验证码不正确", str(self.bidcount), mock_time,
+                                   self.requestid)
 
         elif client_imgnum == self.correct_imgnum:
             self.state = self.IN_QUEUE
-            #print(self.your_no,self.bid_no,self.cur_no)
+            # print(self.your_no,self.bid_no,self.cur_no)
             return self.nb.s2c0202("0", "成功", bidamount, bidnumber,
-                               "出价入列，您处于第%d位，%d，%d" % (self.your_no, self.your_no, self.bid_no), "0", requestid,
-                               "0001-01-01 00:00:00")
-
-
-
+                                   "出价入列，您处于第%d位，%d，%d" % (self.your_no, self.your_no, self.bid_no), "0", requestid,
+                                   "0001-01-01 00:00:00")
 
 
 HOST = ''  # Symbolic name meaning all available interfaces
