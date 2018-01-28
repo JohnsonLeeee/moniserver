@@ -4,11 +4,11 @@
 class HistoryFactory:
     def creatHistory(self, month):
         try:
-            print('未出错')
             exec ('from historydata import history{m}'.format(m=month))
             exec ('h = history{m}.History{m}()'.format(m=month))
+            print('historyfactory未出错')
             return h
         except:
-            print('出错了')
+            print('historyfactory粗错，选择了random')
             from historydata import historyRandom
             return historyRandom.HistoryRandom()
