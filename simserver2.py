@@ -218,9 +218,9 @@ class Context(object):
         if mock_time > today_time(11, 30, 30):
             self.is_finished = True
 
-        # 6 新增代码，大于11，30，10，给出出价结果;
+        # 6 新增代码，大于11，30，07，给出出价结果;
         #print(mock_time, self.realbidamount, self.lowbidprice)
-        if mock_time > today_time(11, 30, 10) and not self.is_result_pushed:
+        if mock_time > today_time(11, 30, 07) and not self.is_result_pushed:
             if self.realbidamount >= self.lowbidprice:
 
                 r = self.nb.s2c0203("4004", self.bidamount, self.bidnumber,
