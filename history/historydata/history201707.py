@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 import time
 import random
+import datetime
 from history201712 import History201712
 
 
 class History201707(History201712) :
+    auction_date = datetime.datetime(2017, 07, 22)
     bid_people = 269189
     title = "2017年7月22日"
     cards = 10325

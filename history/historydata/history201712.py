@@ -387,8 +387,20 @@ class History201712 :
         data = self.TIME_HISTORY_DICT.get(mock_time, self.TIME_HISTORY_DICT["11:29:59"])
         return data[0]
 
+    def getBasePriceTime(self, mock_time):
+        mock_time = '{hour:02d}:{minute:02d}:{second:02d}'.format(
+            hour=mock_time.hour, minute=mock_time.minute, second=mock_time.second)
+        data = self.TIME_HISTORY_DICT.get(mock_time, self.TIME_HISTORY_DICT["11:29:59"])
+        basepricetime = filter(str.isdigit, data[1])
+        return basepricetime
+
     def getRandImageCode(self):
         return self.IMAGE_CODES[random.randint(0, len(self.IMAGE_CODES) - 1)]
+
+
+if __name__ == "__main__":
+    policy = History201712()
+    print(policy.getBasePriceTime(datetime.datetime(2012,12,12,11,29,59)))
     
 
 

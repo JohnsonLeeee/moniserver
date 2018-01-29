@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import time
 import random
+import datetime
 from history201712 import History201712
 
-
 class History201711(History201712) :
+    auction_date = datetime.datetime(2017, 11, 18)
     bid_people = 226911
     title = "2017年11月16日"
     cards = 11002
@@ -329,11 +330,12 @@ class History201711(History201712) :
 
 
         ]
+
     for i in range(len(IMAGE_CODES)):
         IMAGE_CODES[i][2] = "http://51moni-sh.oss-cn-shanghai.aliyuncs.com/" + IMAGE_CODES[i][2]
 
 
-TIME_HISTORY =[
+    TIME_HISTORY =[
                     ["11:29:59",92900,"2017-11-18 11:29:50"],
                     ["11:29:58",92800,"2017-11-18 11:29:48"],
                     ["11:29:57",92800,"2017-11-18 11:29:51"],
@@ -398,9 +400,6 @@ TIME_HISTORY =[
                     ]
 
 
-
-
-    
     #把timehistory转变为字典
     TIME_HISTORY_DICT = {}
     for each in TIME_HISTORY:

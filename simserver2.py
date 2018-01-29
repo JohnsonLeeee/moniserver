@@ -108,7 +108,7 @@ class Context(object):
         self.is_init = False
         self.is_finished = False
         self.nb = netbid.MessageCoreFactory.create_message_core("0220")
-        self.policy_name = "201706"
+        self.policy_name = "201711"
         self.policy = HistoryFactory().creatHistory(self.policy_name)
 
         self.state = self.NORMAL
@@ -337,9 +337,10 @@ class Context(object):
 
     #这里的消息，要想清楚，什么参数需要simserver里传递，什么参数是可选的传递，什么参数直接在netbid里获取就行。
     def s2c0301(self, stage):
+        mock_time = self.getMocktime()
         #这里的字典的键不能随意改动，只可改其参数
         if stage == "A":
-            time0 = self.getMocktime().strftime("%Y%m%d%H%M%S")
+            time0 = mock_time.strftime("%Y%m%d%H%M%S")
             stage1 = "A"
             auctionType2 = "0"  # 0代表个人，1代表单位
             auctionDate3 = self.policy.auction_date.strftime("%Y%m%d")
@@ -349,11 +350,11 @@ class Context(object):
             startTime7 = "1030"
             updateTime8 = "1100"
             endTime9 = "1130"
-            systemTime10 = self.getMocktime().strftime("%H%M%S")
+            systemTime10 = mock_time.strftime("%H%M%S")
             numberOfBidUsers11 = str(self.policy.bid_people)
             basePrice12 = str(self.lowbidprice)
             # 这里还需要改变basepricetime，先不管
-            basePriceTime13 = "20150622110229"
+            basePriceTime13 = self.policy.getBasePriceTime(mock_time)           #basePriceTime13 = "20150622110229"
             tradeSn14 = str(self.cur_no)
             queueLength15 = str(self.your_no - self.cur_no)
 
@@ -365,7 +366,7 @@ class Context(object):
             return self.nb.s2c0301(kwargs, "A")
 
         elif stage == "B":
-            time0 = self.getMocktime().strftime("%Y%m%d%H%M%S")
+            time0 = mock_time.strftime("%Y%m%d%H%M%S")
             stage1 = "B"
             auctionType2 = "0"  # 0代表个人，1代表单位
             auctionDate3 = self.policy.auction_date.strftime("%Y%m%d")
@@ -375,9 +376,9 @@ class Context(object):
             startTime7 = "1030"
             updateTime8 = "1100"
             endTime9 = "1130"
-            systemTime10 = self.getMocktime().strftime("%H%M%S")
+            systemTime10 = mock_time.strftime("%H%M%S")
             basePrice11 = str(self.lowbidprice)
-            basePriceTime12 = "20150622110229"
+            basePriceTime12 = self.policy.getBasePriceTime(mock_time)
             var12013 = str(self.lowbidprice - 300)
             var12114 = str(self.lowbidprice + 300)
             tradeSn15 = str(self.cur_no)
@@ -392,7 +393,7 @@ class Context(object):
 
         # E,H消息暂不知作用
         elif stage == "C" or stage == 'E' or stage == 'H':
-            time0 = self.getMocktime().strftime("%Y%m%d%H%M%S")
+            time0 = mock_time.strftime("%Y%m%d%H%M%S")
             stage1 = "C"
             content2 = "没有正在举行的拍卖会，请注意拍卖公告！查询请到WWW.ALLTOBID.COM"
 
@@ -404,15 +405,15 @@ class Context(object):
             return self.nb.s2c0301(kwargs, "C")
 
         elif stage == 'D':
-            time0 = self.getMocktime().strftime("%Y%m%d%H%M%S")
+            time0 = mock_time.strftime("%Y%m%d%H%M%S")
             stage1 = "D"
             content2 = ("""
 {auctionDate}上海市个人非营业性客车额度投标拍卖会结果公布
 参加拍卖人数：{numberOfBidUsers}
 最低成交价：{lowbidprice}
-最低成交价的截止时间：11:29:59 第1025位
+最低成交价的截止时间：{basepricetime}
 平均成交价：{averageprice}
-请拍卖成交的买受人在13月32日～35日(9:00-16:00)到下列服务点办理成交付款手续。
+请拍卖成交的买受人在XX月XX日～YY日(9:00-16:00)到下列服务点办理成交付款手续。
 1.长宁区淞虹路938号（福缘湾九华商业广场地下1层A2）
 2.共和新路3550号（百联汽车广场）
 3.东江湾路444号（虹口足球场4区113）
@@ -432,7 +433,7 @@ class Context(object):
 
             return self.nb.s2c0301(kwargs, "D")
         elif stage == "G":
-            time0 = self.getMocktime().strftime("%Y%m%d%H%M%S")
+            time0 = mock_time.strftime("%Y%m%d%H%M%S")
             stage1 = "G"
             auctionType2 = "0"
             auctionDate3 = self.policy.auction_date.strftime("%Y%m%d")
@@ -451,13 +452,13 @@ class Context(object):
             return self.nb.s2c0301(kwargs, "G")
 
         elif stage == 'F':
-            time0 = self.getMocktime().strftime("%Y%m%d%H%M%S")
+            time0 = mock_time.strftime("%Y%m%d%H%M%S")
             stage1 = "F"
             auctionType2 = "0"
             auctionDate3 = self.policy.auction_date.strftime("%Y%m%d")
             startTime4 = '1030'
             endTime5 = '1130'
-            systemTime6 = self.getMocktime().strftime("%H%M%S")
+            systemTime6 = mock_time.strftime("%H%M%S")
 
             kwargs = locals()
             kwargs.pop("self")
