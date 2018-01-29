@@ -536,7 +536,7 @@ class MessageCore1024(MessageCore622):
         enc_text = self.encdec.enc(raw_text)
         return self.head(len(enc_text), 2, 3) + enc_text
 
-    def s2c0301(self, stage = "B", kwargs):
+    def s2c0301(self, kwargs, stage="B"):
 
         if stage == 'A':
             enc_text = "%(time0)s,%(stage1)s,%(auctionType2)s,%(auctionDate3)s," \
@@ -571,7 +571,7 @@ class MessageCore1024(MessageCore622):
 
         elif stage == 'G':
             enc_text = ("%(time0)s,%(stage1)s,%(auctionType2)s,%(auctionDate3)s,%(content4)s,"
-                        "%(tradeSn5)s,%(queueLength6)s") % locals()
+                        "%(tradeSn5)s,%(queueLength6)s") % kwargs
             # print "stage == G", enc_text
 
         enc_text = enc_text.decode('utf-8')

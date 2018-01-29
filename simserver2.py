@@ -133,7 +133,7 @@ class Context(object):
         hour = dt.datetime.now().hour
         minute = dt.datetime.now().minute
         second = dt.datetime.now().second
-        print(type(hour), type(minute), type(second))
+        #print(type(hour), type(minute), type(second))
         return dt.datetime.now() - self.timedelta
 
     def wait_init(self):
@@ -193,8 +193,8 @@ class Context(object):
 
         self.cur_no += random.randint(50, 100)
 
-        # 6 新增代码，大于11，30，30， 拍牌结束
-        if mock_time > self.mock_datetime(11, 30, 30):
+        # 6 新增代码，大于11，30，45， 拍牌结束
+        if mock_time > self.mock_datetime(11, 30, 45):
             self.is_finished = True
 
         # 6 新增代码，大于11，30，07，给出出价结果;
@@ -335,6 +335,7 @@ class Context(object):
                                    "出价入列，您处于第%d位，%d，%d" % (self.your_no, self.your_no, self.bid_no), "0", requestid,
                                    "0001-01-01 00:00:00")
 
+    #这里的消息，要想清楚，什么参数需要simserver里传递，什么参数是可选的传递，什么参数直接在netbid里获取就行。
     def s2c0301(self, stage):
         #这里的字典的键不能随意改动，只可改其参数
         if stage == "A":
@@ -359,9 +360,9 @@ class Context(object):
             kwargs = locals()
             kwargs.pop("self")
             kwargs.pop("stage")
-            print(kwargs)
+            #print(kwargs)
 
-            return self.nb.s2c0301("B", kwargs)
+            return self.nb.s2c0301(kwargs, "A")
 
         elif stage == "B":
             time0 = self.getMocktime().strftime("%Y%m%d%H%M%S")
@@ -385,9 +386,9 @@ class Context(object):
             kwargs = locals()
             kwargs.pop("self")
             kwargs.pop("stage")
-            print(kwargs)
+            #print(kwargs)
 
-            return self.nb.s2c0301("B", kwargs)
+            return self.nb.s2c0301(kwargs, "B")
 
         # E,H消息暂不知作用
         elif stage == "C" or stage == 'E' or stage == 'H':
@@ -398,9 +399,9 @@ class Context(object):
             kwargs = locals()
             kwargs.pop("self")
             kwargs.pop("stage")
-            print(kwargs)
+            #print(kwargs)
 
-            return self.nb.s2c0301("B", kwargs)
+            return self.nb.s2c0301(kwargs, "C")
 
         elif stage == 'D':
             time0 = self.getMocktime().strftime("%Y%m%d%H%M%S")
@@ -427,9 +428,27 @@ class Context(object):
             kwargs = locals()
             kwargs.pop("self")
             kwargs.pop("stage")
-            print(kwargs)
+            #print(kwargs)
 
-            return self.nb.s2c0301("B", kwargs)
+            return self.nb.s2c0301(kwargs, "D")
+        elif stage == "G":
+            time0 = self.getMocktime().strftime("%Y%m%d%H%M%S")
+            stage1 = "G"
+            auctionType2 = "0"
+            auctionDate3 = self.policy.auction_date.strftime("%Y%m%d")
+            content4 = """稍后发布拍卖会结果，请等待！
+
+        拍卖会结果也可通过本公司网站、微信公众号进行查询，网址：www.alltobid.com，微信公众号：shanghaiguopai
+            """
+            tradeSn5 = str(self.cur_no)  # tradeSn15 = str(cur_pos)
+            queueLength6 = str(self.your_no - self.cur_no)
+
+            kwargs = locals()
+            kwargs.pop("self")
+            kwargs.pop("stage")
+            #print(kwargs)
+
+            return self.nb.s2c0301(kwargs, "G")
 
         elif stage == 'F':
             time0 = self.getMocktime().strftime("%Y%m%d%H%M%S")
@@ -443,9 +462,9 @@ class Context(object):
             kwargs = locals()
             kwargs.pop("self")
             kwargs.pop("stage")
-            print(kwargs)
+            #print(kwargs)
 
-            return self.nb.s2c0301("B", kwargs)
+            return self.nb.s2c0301(kwargs, "F")
 
 
 HOST = ''  # Symbolic name meaning all available interfaces
