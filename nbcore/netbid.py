@@ -144,9 +144,9 @@ class MessageCore622(object):
 
     template_s2c0101 = '{"response":{"responsecode":%(responsecode)s,"responsemsg":"%(responsemsg)s",' \
                        '"data":{"informationtemplate":"",' \
-                                '"results":[{"bidamount":"%(bidamount)d","bidnumber":"%(bidnumber)s",' \
-                                '"bidtime":"%(bidtime)s","msg":"%(msg)s","bidcount":%(bidcount)d,"type":%(type)d,"' \
-                                'requestid":"%(lastrequestid)s","code":0,"dealtime":"%(dealtime)s"}]}},' \
+                       '"results":[{"bidamount":"%(bidamount)d","bidnumber":"%(bidnumber)s",' \
+                       '"bidtime":"%(bidtime)s","msg":"%(msg)s","bidcount":%(bidcount)d,"type":%(type)d,"' \
+                       'requestid":"%(lastrequestid)s","code":0,"dealtime":"%(dealtime)s"}]}},' \
                        '"requestid":"%(requestid)s","servertime":"%(servertime)s"}'
 
     template_s2c0201 = '{"response":{"responsecode":%(responsecode)s,"responsemsg":"%(responsemsg)s",' \
@@ -155,14 +155,14 @@ class MessageCore622(object):
 
     template_s2c0202 = '{"response":{"responsecode":%(responsecode)s,"responsemsg":"%(responsemsg)s",' \
                        '"data":{"bidamount":"%(bidamount)s","bidnumber":"%(bidnumber)s",' \
-                                '"bidtime":"%(bidtime)s","msg":"%(msg)s","bidcount":%(bidcount)s,' \
-                                '"type":%(stype)s,"requestid":"%(requestid)s","code":%(code)s,"dealtime":"%(dealtime)s"}},' \
+                       '"bidtime":"%(bidtime)s","msg":"%(msg)s","bidcount":%(bidcount)s,' \
+                       '"type":%(stype)s,"requestid":"%(requestid)s","code":%(code)s,"dealtime":"%(dealtime)s"}},' \
                        '"requestid":"%(requestid)s","servertime":"%(servertime)s"}'
 
     template_s2c0203 = '{"response":{"responsecode":%(responsecode)s,"responsemsg":"",' \
                        '"data":{"bidamount":"%(bidamount)s","bidnumber":"%(bidnumber)s",' \
-                                '"bidtime":"%(bidtime)s","msg":"%(msg)s","bidcount":%(bidcount)s,' \
-                                '"type":%(stype)s,"requestid":"%(requestid)s","code":%(code)s,"dealtime":"%(dealtime)s"}},' \
+                       '"bidtime":"%(bidtime)s","msg":"%(msg)s","bidcount":%(bidcount)s,' \
+                       '"type":%(stype)s,"requestid":"%(requestid)s","code":%(code)s,"dealtime":"%(dealtime)s"}},' \
                        '"requestid":"%(requestid)s","servertime":"%(servertime)s"}'
     # this is for 6-22
     CLIENT_ID = "4d3d87126d5446248c44ff0f33cc75b3"
@@ -487,7 +487,7 @@ class MessageCore1024(MessageCore622):
             print raw_text
         return self.head(len(enc_text), 2, 2) + enc_text
 
-    def s2c0101(self, responsecode, responsemsg,bidamount,
+    def s2c0101(self, responsecode, responsemsg, bidamount,
                 bidnumber, bidcount, stype, requestid, dealtime):
 
         lastrequestid = bidnumber + "." + self.cal_timestamp(dt.timedelta(seconds=30))
@@ -522,237 +522,57 @@ class MessageCore1024(MessageCore622):
                              '"type":%(stype)s,"requestid":"%(requestid)s","code":%(code)s,"dealtime":"%(dealtime)s"}},' \
                     '"requestid":"%(requestid)s","servertime":"%(servertime)s"}'
      """
+
     def s2c0203(self, responsecode,
                 bidamount, bidnumber, bidtime, msg, bidcount, dealtime, requestid, stype="1", code="0"):
         servertime = time2str(dt.datetime.now())
-        #测试用
-        #print(type(dealtime), dealtime)
-        #把后microseconds的后三位截断
+        # 测试用
+        # print(type(dealtime), dealtime)
+        # 把后microseconds的后三位截断
         dealtime = str(dealtime)[:-3]
 
         raw_text = self.template_s2c0203 % locals()
-        #print("2-3消息：", raw_text)
+        # print("2-3消息：", raw_text)
         enc_text = self.encdec.enc(raw_text)
         return self.head(len(enc_text), 2, 3) + enc_text
 
-
-
-
-    def s2c0301(self, lowbidprice, cur_pos, stage='B', cur_time=None):
-        if cur_time is None:
-            cur_time = dt.datetime.now()
+    def s2c0301(self, stage = "B", kwargs):
 
         if stage == 'A':
-            """
-            0    20150622195754,
-            1    A,
-            2    2015年6月22日上海市个人非营业性客车额度模拟投标拍卖会,
-            3    5000,
-            4    75200,
-            5    19:30,
-            6    20:30,
-            7    19:30,
-            8    20:00,
-            9    20:00,
-            10    20:30,
-            11    19:57:53,
-            12    75508,
-            13    75200,
-            14    2015-06-22 19:38:31,
-            15    93342,
-            16    0
-            """
-            """
-            time0 = cur_time.strftime("%Y%m%d%H%M%S")
-            stage1 = "A"
-            name2 = "2015年6月22日上海市个人非营业性客车额度模拟投标拍卖会"
-            count3 = "5000"
-            startprice4 = "75200"
-            bidstart5 = "19:30"
-            bidend6 = "20:30"
-            stageAstart7 = "19:30"
-            stageAend8 = "20:00"
-            stageBstart9 = "20:00"
-            stageBend10 = "20:30"
-            servertime11 = daytime(cur_time)
-            people12 = "75508"
-            lowbidprice13 = str(lowbidprice)
-            lowbidpricetime14 = "2015-06-22 19:38:31"
-            cur_pos15 = str(cur_pos)
-            unused16 = "0"
-            enc_text = "%(time0)s,%(stage1)s,%(name2)s,%(count3)s,%(startprice4)s,%(bidstart5)s,%(bidend6)s,%(stageAstart7)s,%(stageAend8)s,%(stageBstart9)s,%(stageBend10)s,%(servertime11)s,%(people12)s,%(lowbidprice13)s,%(lowbidpricetime14)s,%(cur_pos15)s,%(unused16)s" % locals()
-            """
-            time0 = cur_time.strftime("%Y%m%d%H%M%S")
-            stage1 = "A"
-            auctionType2 = "0"
-            auctionDate3 = "20180121"
-            quota4 = "7763"
-            warningPrice5 = "11300"
-            priceLowerLimit6 = "100"
-            startTime7 = "1030"
-            updateTime8 = "1100"
-            endTime9 = "1130"
-            systemTime10 = cur_time.strftime("%H%M%S")
-            numberOfBidUsers11 = "1233433"
-            basePrice12 = str(lowbidprice)
-            basePriceTime13 = "20150622110229"
-            tradeSn14 = str(0)
-            queueLength15 = "0"
-            enc_text = "%(time0)s,%(stage1)s,%(auctionType2)s,%(auctionDate3)s,%(quota4)s,%(warningPrice5)s,%(priceLowerLimit6)s,%(startTime7)s,%(updateTime8)s,%(endTime9)s,%(systemTime10)s,%(numberOfBidUsers11)s,%(basePrice12)s,%(basePriceTime13)s,%(tradeSn14)s,%(queueLength15)s" % locals()
+            enc_text = "%(time0)s,%(stage1)s,%(auctionType2)s,%(auctionDate3)s," \
+                       "%(quota4)s,%(warningPrice5)s,%(priceLowerLimit6)s,%(startTime7)s," \
+                       "%(updateTime8)s,%(endTime9)s,%(systemTime10)s,%(numberOfBidUsers11)s," \
+                       "%(basePrice12)s,%(basePriceTime13)s,%(tradeSn14)s,%(queueLength15)s"\
+                       % kwargs
             # print "liuziyu ~~~~", enc_text
 
 
         elif stage == 'B':
-            """
-            0 20150622200243
-            1 B
-            2 2015年6月22日上海市个人非营业性客车额度模拟投标拍卖会
-            3 5000
-            4 76865
-            5 19:30
-            6 20:30
-            7 19:30
-            8 20:00
-            9 20:00
-            10 20:30
-            11 20:02:42
-            12 75400
-            13 2015-06-22 20:01:29
-            14 75100
-            15 75700
-            16 107188
-            17 0
-            
-            0 20151024112955,
-            1 B,
-            2 0,
-            3 2015年10月24日上海市个人非营业性客车额度投标拍卖会,
-            4 7763,
-            5 170995,
-            6 100,
-            7 10:30,
-            8 11:30,
-            9 10:30,
-            10 11:00,
-            11 11:00,
-            12 11:30,
-            13 11:29:54,
-            14 85100,
-            15 2015-10-24 11:29:50,
-            16 84800,
-            17 85400,
-            18 456507,
-            19 0
+            #print("netbid:", kwargs)
+            enc_text = "%(time0)s,%(stage1)s,%(auctionType2)s,%(auctionDate3)s," \
+                       "%(quota4)s,%(numberOfBidUsers5)s,%(priceLowerLimit6)s,%(startTime7)s," \
+                       "%(updateTime8)s,%(endTime9)s,%(systemTime10)s,%(basePrice11)s,%(basePriceTime12)s," \
+                       "%(var12013)s,%(var12114)s,%(tradeSn15)s,%(queueLength16)s" \
+                       % kwargs
 
-            
-            """
-            ##            time0 = cur_time.strftime("%Y%m%d%H%M%S")
-            ##            stage1 = "B"
-            ##            unknow2 = "0"
-            ##            name3 = "2017年1月14日上海市个人非营业性客车额度投标拍卖会"
-            ##            count4 = "7763"
-            ##            people5 = "170995"
-            ##            unknow6 = "100"
-            ##            bidstart7 = "10:30"
-            ##            bidend8 = "11:30"
-            ##            stageAstart9 = "10:30"
-            ##            stageAend10 = "11:00"
-            ##            stageBstart11 = "11:00"
-            ##            stageBend12 = "11:30"
-            ##            servertime13 = daytime(cur_time)
-            ##            lowbidprice14 = str(lowbidprice)
-            ##            lowbidpricetime15 = "2015-06-22 20:01:29"
-            ##            lowlimit16 = str(lowbidprice-300)
-            ##            uplimit17 = str(lowbidprice+300)
-            ##            cur_pos18 = str(cur_pos)
-            ##            unusedd19 = "0"
-
-            time0 = cur_time.strftime("%Y%m%d%H%M%S")
-            stage1 = "B"
-            unknow2 = "0"
-            aucttionDate3 = "20171216"
-            quota4 = "7763"
-            numberOfBidUsers5 = "170995"
-            priceLowerLimit6 = "100"
-            startTime7 = "1030"
-            updateTime8 = "1100"
-            endTime9 = "1130"
-            systemTime10 = cur_time.strftime("%H%M%S")
-            basePrice11 = str(lowbidprice)
-            basePriceTime12 = "20150622110229"
-            var12013 = str(lowbidprice - 300)
-            var12114 = str(lowbidprice + 300)
-            tradeSn15 = str(cur_pos)
-            queueLength16 = "0"
-
-            ##            enc_text = "%(time0)s,%(stage1)s,%(unknow2)s,%(name3)s,%(count4)s,%(people5)s,%(unknow6)s,%(bidstart7)s,%(bidend8)s,%(stageAstart9)s,%(stageAend10)s,%(stageBstart11)s,%(stageBend12)s,%(servertime13)s,%(lowbidprice14)s,%(lowbidpricetime15)s,%(lowlimit16)s,%(uplimit17)s,%(cur_pos18)s,%(unusedd19)s"%locals()
-
-            enc_text = "%(time0)s,%(stage1)s,%(unknow2)s,%(aucttionDate3)s,%(quota4)s,%(numberOfBidUsers5)s,%(priceLowerLimit6)s,%(startTime7)s,%(updateTime8)s,%(endTime9)s,%(systemTime10)s,%(basePrice11)s,%(basePriceTime12)s,%(var12013)s,%(var12114)s,%(tradeSn15)s,%(queueLength16)s" % locals()
-            #print "liuziyu ~~~~", enc_text
-
-        #7李帅新加代码
-        #E,H消息暂时不知何用，是拍牌前的界面
         elif stage == 'C' or stage == 'E' or stage == 'H':
-            time0 = cur_time.strftime("%Y%m%d%H%M%S")
-            stage1 = "C"
-            content2 = "没有正在举行的拍卖会，请注意拍卖公告！查询请到WWW.ALLTOBID.COM"
-            enc_text = "%(time0)s,%(stage1)s,%(content2)s," % locals()
+
+            enc_text = "%(time0)s,%(stage1)s,%(content2)s," % kwargs
 
         elif stage == 'D':
-            time0 = cur_time.strftime("%Y%m%d%H%M%S")
-            stage1 = "D"
-            content2 = ("""
-2017年11月18日上海市个人非营业性客车额度投标拍卖会结果公布
-参加拍卖人数：226911
-最低成交价：93100
-最低成交价的截止时间：11:29:59 第1025位
-平均成交价：93130
-请拍卖成交的买受人在11月19日～25日(9:00-16:00)到下列服务点办理成交付款手续。
-1.长宁区淞虹路938号（福缘湾九华商业广场地下1层A2）
-2.共和新路3550号（百联汽车广场）
-3.东江湾路444号（虹口足球场4区113）
-4.新镇路288号（闵行体育馆架空层B2区）
-5.新村路1500号1层107（家乐福上海万里店内）
-6.浦东成山路800号（云顶国际商业广场A座101）
-注：福州路108号（公司本部）不办理成交付款结算手续
-另：我公司网站已开通网上支付结算，大家可登录查询。
-            
-            """)
-            tradeSn3 = str(cur_pos)     #tradeSn15 = str(cur_pos)
-            queueLength4 = "0"
-            enc_text = ("%(time0)s,%(stage1)s,%(content2)s,%(tradeSn3)s,%(queueLength4)s") % locals()
-            #print "stage == D", enc_text
+            enc_text = ("%(time0)s,%(stage1)s,%(content2)s,%(tradeSn3)s,%(queueLength4)s") % kwargs
+            # print "stage == D", enc_text
 
         elif stage == 'F':
-            time0 = cur_time.strftime("%Y%m%d%H%M%S")
-            stage1 = "F"
-            auctionType2 = "0"
-            auctionDate3 = "20180121"
-            startTime4 = '1030'
-            endTime5 = '1130'
-            systemTime6 = cur_time.strftime("%H%M%S")
-
             enc_text = ("%(time0)s,%(stage1)s,%(auctionType2)s,%(auctionDate3)s,%(startTime4)s,"
-                        "%(endTime5)s,%(systemTime6)s") % locals()
-            #print "stage == D", enc_text
+                        "%(endTime5)s,%(systemTime6)s") % kwargs
+            # print "stage == D", enc_text
 
 
         elif stage == 'G':
-            time0 = cur_time.strftime("%Y%m%d%H%M%S")
-            stage1 = "G"
-            auctionType2 = "0"
-            auctionDate3 = "20180121"
-            content4 = """稍后发布拍卖会结果，请等待！
-
-拍卖会结果也可通过本公司网站、微信公众号进行查询，网址：www.alltobid.com，微信公众号：shanghaiguopai
-"""
-            tradeSn5 = str(cur_pos)  #tradeSn15 = str(cur_pos)
-            queueLength6 = "0"
             enc_text = ("%(time0)s,%(stage1)s,%(auctionType2)s,%(auctionDate3)s,%(content4)s,"
                         "%(tradeSn5)s,%(queueLength6)s") % locals()
-            #print "stage == G", enc_text
-
-
+            # print "stage == G", enc_text
 
         enc_text = enc_text.decode('utf-8')
         mixed_text = encutil.remix_msg(enc_text, self.msg_decode_len)

@@ -13,35 +13,6 @@ from nbcore import netbid
 
 from history.historyfactory import HistoryFactory
 
-"""
-已复制到historydata.historyRandom
-IMAGES = [
-["7695","输入下面带星的四位数字","http://51moni-sh.oss-cn-shanghai.aliyuncs.com/base1.png?id=cf920e81-4a73-4e69-beea-bdcd3929abcb&i=2b4ca06b3f1790e1a232dba065ffda3f"],
-["1187","输入下面不带星的四位数字","http://51moni-sh.oss-cn-shanghai.aliyuncs.com/base2.png?id=cf920e81-4a73-4e69-beea-bdcd3929abcb&i=2b4ca06b3f1790e1a232dba065ffda3f"],
-["2249","输入苹果行的四位数字校验码","http://51moni-sh.oss-cn-shanghai.aliyuncs.com/yzm1710/b1172~a2249.png"],
-["1683","输入香蕉行的四位数字校验码","http://51moni-sh.oss-cn-shanghai.aliyuncs.com/yzm1710/b1683~a3369.png?id=cf920e81-4a73-4e69-beea-bdcd3929abcb&i=2b4ca06b3f1790e1a232dba065ffda3f"],
-["3369","输入苹果行的四位数字校验码","http://51moni-sh.oss-cn-shanghai.aliyuncs.com/yzm1710/b1683~a3369.png?id=cf920e81-4a73-4e69-beea-bdcd3929abcb&i=2b4ca06b3f1790e1a232dba065ffda3f"],
-["1698","输入香蕉行的四位数字校验码","http://51moni-sh.oss-cn-shanghai.aliyuncs.com/yzm1710/b1698~a1293.png?id=cf920e81-4a73-4e69-beea-bdcd3929abcb&i=2b4ca06b3f1790e1a232dba065ffda3f"],
-["1293","输入苹果行的四位数字校验码","http://51moni-sh.oss-cn-shanghai.aliyuncs.com/yzm1710/b1698~a1293.png?id=cf920e81-4a73-4e69-beea-bdcd3929abcb&i=2b4ca06b3f1790e1a232dba065ffda3f"],
-["2072","输入香蕉行的四位数字校验码","http://51moni-sh.oss-cn-shanghai.aliyuncs.com/yzm1710/b2072~a6647.png?id=cf920e81-4a73-4e69-beea-bdcd3929abcb&i=2b4ca06b3f1790e1a232dba065ffda3f"],
-["6647","输入苹果行的四位数字校验码","http://51moni-sh.oss-cn-shanghai.aliyuncs.com/yzm1710/b2072~a6647.png?id=cf920e81-4a73-4e69-beea-bdcd3929abcb&i=2b4ca06b3f1790e1a232dba065ffda3f"],
-["3389","输入香蕉行的四位数字校验码","http://51moni-sh.oss-cn-shanghai.aliyuncs.com/yzm1710/b3389~a3968.png?id=cf920e81-4a73-4e69-beea-bdcd3929abcb&i=2b4ca06b3f1790e1a232dba065ffda3f"],
-["3968","输入苹果行的四位数字校验码","http://51moni-sh.oss-cn-shanghai.aliyuncs.com/yzm1710/b3389~a3968.png?id=cf920e81-4a73-4e69-beea-bdcd3929abcb&i=2b4ca06b3f1790e1a232dba065ffda3f"],
-["4845","输入香蕉行的四位数字校验码","http://51moni-sh.oss-cn-shanghai.aliyuncs.com/yzm1710/b4845~a6136.png?id=cf920e81-4a73-4e69-beea-bdcd3929abcb&i=2b4ca06b3f1790e1a232dba065ffda3f"],
-["6136","输入苹果行的四位数字校验码","http://51moni-sh.oss-cn-shanghai.aliyuncs.com/yzm1710/b4845~a6136.png?id=cf920e81-4a73-4e69-beea-bdcd3929abcb&i=2b4ca06b3f1790e1a232dba065ffda3f"],
-["4936","输入香蕉行的四位数字校验码","http://51moni-sh.oss-cn-shanghai.aliyuncs.com/yzm1710/b4936~a8850.png?id=cf920e81-4a73-4e69-beea-bdcd3929abcb&i=2b4ca06b3f1790e1a232dba065ffda3f"],
-["8850","输入苹果行的四位数字校验码","http://51moni-sh.oss-cn-shanghai.aliyuncs.com/yzm1710/b4936~a8850.png?id=cf920e81-4a73-4e69-beea-bdcd3929abcb&i=2b4ca06b3f1790e1a232dba065ffda3f"],
-["7213","输入香蕉行的四位数字校验码","http://51moni-sh.oss-cn-shanghai.aliyuncs.com/yzm1710/b7213~a1015.png?id=cf920e81-4a73-4e69-beea-bdcd3929abcb&i=2b4ca06b3f1790e1a232dba065ffda3f"],
-["1015","输入苹果行的四位数字校验码","http://51moni-sh.oss-cn-shanghai.aliyuncs.com/yzm1710/b7213~a1015.png?id=cf920e81-4a73-4e69-beea-bdcd3929abcb&i=2b4ca06b3f1790e1a232dba065ffda3f"],
-["7650","输入香蕉行的四位数字校验码","http://51moni-sh.oss-cn-shanghai.aliyuncs.com/yzm1710/b7650~a2972.png?id=cf920e81-4a73-4e69-beea-bdcd3929abcb&i=2b4ca06b3f1790e1a232dba065ffda3f"],
-["2972","输入苹果行的四位数字校验码","http://51moni-sh.oss-cn-shanghai.aliyuncs.com/yzm1710/b7650~a2972.png?id=cf920e81-4a73-4e69-beea-bdcd3929abcb&i=2b4ca06b3f1790e1a232dba065ffda3f"],
-
-    ]
-"""
-
-
-##IMAGES = [
-##    ["0048","请输入第一行图像校验码","http://liuziyu.oss-cn-hangzhou.aliyuncs.com/yzm5/b9749-a9373.png?ep=7788"],]
 
 def today_time(hour, minute, sec):
     today = dt.date.today()
@@ -162,8 +133,8 @@ class Context(object):
         hour = dt.datetime.now().hour
         minute = dt.datetime.now().minute
         second = dt.datetime.now().second
-        print(type(hour),type(minute),type(second))
-        return dt.datetime.now() -self.timedelta
+        print(type(hour), type(minute), type(second))
+        return dt.datetime.now() - self.timedelta
 
     def wait_init(self):
         self.init_event.wait()
@@ -172,9 +143,7 @@ class Context(object):
         self.init_event.set()
 
     def process(self, clientdata):
-        # type: (object) -> object
-
-        #        print 'got',clientdata
+        #print 'got',clientdata
         if len(clientdata) == 0:
             return
 
@@ -186,7 +155,7 @@ class Context(object):
 
         messages = self.nb.dec_client_data(clientdata)
         for msg in messages:
-            #             print msg
+            #print msg
             pmethod = getattr(self, 'reply%d_%d' % (msg.period1, msg.period2))
             r = pmethod(msg)
             if r:
@@ -207,13 +176,13 @@ class Context(object):
         # 1，11：30：00后页面改变为G
         # 2，中标信息出来后，弹框告知，并页面改变为D
         if self.mock_datetime(11, 00, 00) <= mock_time < self.mock_datetime(11, 30, 00):
-            replys.append(self.nb.s2c0301(self.lowbidprice, self.cur_no, cur_time=mock_time, stage='B'))
+            replys.append(self.s2c0301(stage='B'))
         elif self.mock_datetime(11, 30, 00) <= mock_time < self.mock_datetime(11, 30, 10):
-            replys.append(self.nb.s2c0301(self.lowbidprice, self.cur_no, cur_time=mock_time, stage='G'))
+            replys.append(self.s2c0301(stage='G'))
         elif self.mock_datetime(11, 30, 10) <= mock_time < self.mock_datetime(11, 40, 00):
-            replys.append(self.nb.s2c0301(self.lowbidprice, self.cur_no, cur_time=mock_time, stage='D'))
+            replys.append(self.s2c0301(stage='D'))
         elif self.mock_datetime(10, 30, 00) <= mock_time < self.mock_datetime(11, 00, 00):
-            replys.append(self.nb.s2c0301(self.lowbidprice, self.cur_no, cur_time=mock_time, stage='A'))
+            replys.append(self.s2c0301(stage='A'))
 
         return replys
 
@@ -308,7 +277,7 @@ class Context(object):
         stype = 1
         requestid = msg.getprop('requestid')
         dealtime = self.mock_datetime(10, 30, 01)
-        #print(type(dealtime))
+        # print(type(dealtime))
 
         # 7添加功能：根据传回的bidnumber值，确定所属历史月份的队列
         """
@@ -365,6 +334,118 @@ class Context(object):
             return self.nb.s2c0202("0", "成功", bidamount, bidnumber,
                                    "出价入列，您处于第%d位，%d，%d" % (self.your_no, self.your_no, self.bid_no), "0", requestid,
                                    "0001-01-01 00:00:00")
+
+    def s2c0301(self, stage):
+        #这里的字典的键不能随意改动，只可改其参数
+        if stage == "A":
+            time0 = self.getMocktime().strftime("%Y%m%d%H%M%S")
+            stage1 = "A"
+            auctionType2 = "0"  # 0代表个人，1代表单位
+            auctionDate3 = self.policy.auction_date.strftime("%Y%m%d")
+            quota4 = self.policy.cards
+            warningPrice5 = str(self.policy.warning_price)
+            priceLowerLimit6 = "100"
+            startTime7 = "1030"
+            updateTime8 = "1100"
+            endTime9 = "1130"
+            systemTime10 = self.getMocktime().strftime("%H%M%S")
+            numberOfBidUsers11 = str(self.policy.bid_people)
+            basePrice12 = str(self.lowbidprice)
+            # 这里还需要改变basepricetime，先不管
+            basePriceTime13 = "20150622110229"
+            tradeSn14 = str(self.cur_no)
+            queueLength15 = str(self.your_no - self.cur_no)
+
+            kwargs = locals()
+            kwargs.pop("self")
+            kwargs.pop("stage")
+            print(kwargs)
+
+            return self.nb.s2c0301("B", kwargs)
+
+        elif stage == "B":
+            time0 = self.getMocktime().strftime("%Y%m%d%H%M%S")
+            stage1 = "B"
+            auctionType2 = "0"  # 0代表个人，1代表单位
+            auctionDate3 = self.policy.auction_date.strftime("%Y%m%d")
+            quota4 = self.policy.cards
+            numberOfBidUsers5 = str(self.policy.bid_people)
+            priceLowerLimit6 = "100"
+            startTime7 = "1030"
+            updateTime8 = "1100"
+            endTime9 = "1130"
+            systemTime10 = self.getMocktime().strftime("%H%M%S")
+            basePrice11 = str(self.lowbidprice)
+            basePriceTime12 = "20150622110229"
+            var12013 = str(self.lowbidprice - 300)
+            var12114 = str(self.lowbidprice + 300)
+            tradeSn15 = str(self.cur_no)
+            queueLength16 = str(self.your_no - self.cur_no)
+
+            kwargs = locals()
+            kwargs.pop("self")
+            kwargs.pop("stage")
+            print(kwargs)
+
+            return self.nb.s2c0301("B", kwargs)
+
+        # E,H消息暂不知作用
+        elif stage == "C" or stage == 'E' or stage == 'H':
+            time0 = self.getMocktime().strftime("%Y%m%d%H%M%S")
+            stage1 = "C"
+            content2 = "没有正在举行的拍卖会，请注意拍卖公告！查询请到WWW.ALLTOBID.COM"
+
+            kwargs = locals()
+            kwargs.pop("self")
+            kwargs.pop("stage")
+            print(kwargs)
+
+            return self.nb.s2c0301("B", kwargs)
+
+        elif stage == 'D':
+            time0 = self.getMocktime().strftime("%Y%m%d%H%M%S")
+            stage1 = "D"
+            content2 = ("""
+2017年11月18日上海市个人非营业性客车额度投标拍卖会结果公布
+参加拍卖人数：226911
+最低成交价：93100
+最低成交价的截止时间：11:29:59 第1025位
+平均成交价：93130
+请拍卖成交的买受人在11月19日～25日(9:00-16:00)到下列服务点办理成交付款手续。
+1.长宁区淞虹路938号（福缘湾九华商业广场地下1层A2）
+2.共和新路3550号（百联汽车广场）
+3.东江湾路444号（虹口足球场4区113）
+4.新镇路288号（闵行体育馆架空层B2区）
+5.新村路1500号1层107（家乐福上海万里店内）
+6.浦东成山路800号（云顶国际商业广场A座101）
+注：福州路108号（公司本部）不办理成交付款结算手续
+另：我公司网站已开通网上支付结算，大家可登录查询。
+                    """)
+            tradeSn3 = str(self.cur_no)  # tradeSn15 = str(cur_pos)
+            queueLength4 = str(self.your_no - self.cur_no)
+
+            kwargs = locals()
+            kwargs.pop("self")
+            kwargs.pop("stage")
+            print(kwargs)
+
+            return self.nb.s2c0301("B", kwargs)
+
+        elif stage == 'F':
+            time0 = self.getMocktime().strftime("%Y%m%d%H%M%S")
+            stage1 = "F"
+            auctionType2 = "0"
+            auctionDate3 = self.policy.auction_date.strftime("%Y%m%d")
+            startTime4 = '1030'
+            endTime5 = '1130'
+            systemTime6 = self.getMocktime().strftime("%H%M%S")
+
+            kwargs = locals()
+            kwargs.pop("self")
+            kwargs.pop("stage")
+            print(kwargs)
+
+            return self.nb.s2c0301("B", kwargs)
 
 
 HOST = ''  # Symbolic name meaning all available interfaces

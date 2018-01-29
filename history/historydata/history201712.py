@@ -8,6 +8,7 @@ class History201712 :
     bid_people = 228148
     title = "2017年12月16日"
     cards = 12147
+    warning_price = 91700
     IMAGE_CODES = [
                         
                         ["2041","输入香蕉行的四位数字校验码","yzm1712/a0143~b2041.png"],
