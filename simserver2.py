@@ -108,7 +108,7 @@ class Context(object):
         self.is_init = False
         self.is_finished = False
         self.nb = netbid.MessageCoreFactory.create_message_core("0220")
-        self.policy_name = "201707"
+        self.policy_name = "201706"
         self.policy = HistoryFactory().creatHistory(self.policy_name)
 
         self.state = self.NORMAL
@@ -121,7 +121,7 @@ class Context(object):
         self.realbidamount = 86300
         self.is_result_pushed = False
 
-        self.timedelta = dt.datetime.now() - self.mock_datetime(11, 29, 00)
+        self.timedelta = dt.datetime.now() - self.mock_datetime(11, 29, 10)
 
     def mock_datetime(self, hour, minute, second):
         mock_year = self.policy.auction_date.year
@@ -130,9 +130,6 @@ class Context(object):
         return dt.datetime(mock_year, mock_month, mock_day, hour, minute, second)
 
     def getMocktime(self):
-        hour = dt.datetime.now().hour
-        minute = dt.datetime.now().minute
-        second = dt.datetime.now().second
         #print(type(hour), type(minute), type(second))
         return dt.datetime.now() - self.timedelta
 
@@ -170,11 +167,12 @@ class Context(object):
             replys.append(self.msg_queue.get())
             self.msg_queue.task_done()
 
-        mock_time = self.getMocktime()
+
 
         # 需要添加的功能
         # 1，11：30：00后页面改变为G
         # 2，中标信息出来后，弹框告知，并页面改变为D
+        mock_time = self.getMocktime()
         if self.mock_datetime(11, 00, 00) <= mock_time < self.mock_datetime(11, 30, 00):
             replys.append(self.s2c0301(stage='B'))
         elif self.mock_datetime(11, 30, 00) <= mock_time < self.mock_datetime(11, 30, 10):
@@ -183,6 +181,8 @@ class Context(object):
             replys.append(self.s2c0301(stage='D'))
         elif self.mock_datetime(10, 30, 00) <= mock_time < self.mock_datetime(11, 00, 00):
             replys.append(self.s2c0301(stage='A'))
+        elif self.mock_datetime(8, 30, 00) <= mock_time < self.mock_datetime(10, 30, 00):
+            replys.append(self.s2c0301(stage='F'))
 
         return replys
 
@@ -204,7 +204,7 @@ class Context(object):
 
                 r = self.nb.s2c0203("4004", self.bidamount, self.bidnumber,
                                     (dt.datetime.now() - self.timedelta),
-                                    "恭喜你，中标了！您的出价金额为{realbidamount},最低中标价为{lowbidprice},30s后将自动重新模拟".format(
+                                    "恭喜你，中标了！30s后将自动重新模拟".format(
                                         realbidamount=self.realbidamount, lowbidprice=self.lowbidprice),
                                     str(self.bidcount),
                                     mock_time,
@@ -213,7 +213,7 @@ class Context(object):
 
                 r = self.nb.s2c0203("4004", self.bidamount, self.bidnumber,
                                     (dt.datetime.now() - self.timedelta),
-                                    "很遗憾，您没中标，您的出价金额为{bidamount},最低中标价为{lowbidprice},30s后将自动重新模拟".format(
+                                    "很遗憾，您没中标。30s后将自动重新模拟".format(
                                         bidamount=self.realbidamount, lowbidprice=self.lowbidprice),
                                     str(self.bidcount),
                                     mock_time, self.requestid)
@@ -280,13 +280,13 @@ class Context(object):
         # print(type(dealtime))
 
         # 7添加功能：根据传回的bidnumber值，确定所属历史月份的队列
-        """
-        self.bidnumber = bidnumber
-        self.policy_name = str(bidnumber)[:6]
-        self.policy = HistoryFactory().creatHistory(self.policy_name)
-        self.mockdate = dt.datetime(self.bidnumber[:4], self.bidnumber[4:6], self.bidnumber[6:])
-        print("bidnumber", self.bidnumber, str(bidnumber)[:6])
-        """
+
+        #self.bidnumber = bidnumber
+        #self.policy_name = str(bidnumber)[:6]
+        #self.policy = HistoryFactory().creatHistory(self.policy_name)
+        #self.mockdate = dt.datetime(self.bidnumber[:4], self.bidnumber[4:6], self.bidnumber[6:])
+        #print("bidnumber", self.bidnumber, str(bidnumber)[:6])
+
 
         return self.nb.s2c0101(responsecode, responsemsg,
                                bidamount, bidnumber, bidcount, stype, requestid, dealtime)
@@ -407,12 +407,12 @@ class Context(object):
             time0 = self.getMocktime().strftime("%Y%m%d%H%M%S")
             stage1 = "D"
             content2 = ("""
-2017年11月18日上海市个人非营业性客车额度投标拍卖会结果公布
-参加拍卖人数：226911
-最低成交价：93100
+{auctionDate}上海市个人非营业性客车额度投标拍卖会结果公布
+参加拍卖人数：{numberOfBidUsers}
+最低成交价：{lowbidprice}
 最低成交价的截止时间：11:29:59 第1025位
-平均成交价：93130
-请拍卖成交的买受人在11月19日～25日(9:00-16:00)到下列服务点办理成交付款手续。
+平均成交价：{averageprice}
+请拍卖成交的买受人在13月32日～35日(9:00-16:00)到下列服务点办理成交付款手续。
 1.长宁区淞虹路938号（福缘湾九华商业广场地下1层A2）
 2.共和新路3550号（百联汽车广场）
 3.东江湾路444号（虹口足球场4区113）
@@ -438,7 +438,7 @@ class Context(object):
             auctionDate3 = self.policy.auction_date.strftime("%Y%m%d")
             content4 = """稍后发布拍卖会结果，请等待！
 
-        拍卖会结果也可通过本公司网站、微信公众号进行查询，网址：www.alltobid.com，微信公众号：shanghaiguopai
+拍卖会结果也可通过本公司网站、微信公众号进行查询，网址：www.alltobid.com，微信公众号：shanghaiguopai
             """
             tradeSn5 = str(self.cur_no)  # tradeSn15 = str(cur_pos)
             queueLength6 = str(self.your_no - self.cur_no)
